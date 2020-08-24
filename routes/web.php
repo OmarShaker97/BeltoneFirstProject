@@ -13,6 +13,9 @@
 
 Route::get('getUsers', 'UserController@getUsers');
 
+Route::post('create','UserController@insert')->name('create');
+Route::get('delete/{id}','UserController@destroy')->name('delete');
+
 Route::get('/', function () {
     return view('welcome');
 });

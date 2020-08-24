@@ -8,4 +8,8 @@ class Users extends Model
 {
     protected $table = 'users';
     protected $guarded = [];
+
+    protected $fillable = [
+        'name', 'email', 'phone',
+    ];
 }

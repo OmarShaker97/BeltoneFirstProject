@@ -1,7 +1,7 @@
 <?php
 
 use App\Post;
-
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,7 +37,7 @@ Route::get('/', function () {
 
 Route::get('/insert',function(){
 
-    DB::insert('insert into posts(title,body) values(?,?)', ['PHP with Laravel', "PHP with Laravel is the best thing that has happened to PHP."]);
+    DB::insert('insert into posts(title,body) values(?,?)', ['PHP is awesome with edwin', "PHP with Laravel is the best thing that has happened to PHP."]);
     echo "Insertion Done.";
 });
 
@@ -93,6 +93,138 @@ Route::get('admin/posts/example', array('as'=>'admin.home',function(){
 
     Route::get('/find', function(){
 
+        $post = Post::find(2);
 
-        $posts = Post::all();
+        echo $post->title;
+
+
+       // foreach()
+
+    });
+
+    Route::get('/findwhere', function()
+    {
+        $posts = Post::where('id',2)->orderBy('id','desc')->take(1)->get();
+
+        return $posts;
+
+    });
+
+    Route::get('/findmore', function(){
+
+     //   $posts = Post::findOrFail(1);
+
+     //   return $posts;
+
+     $posts = Post::where('users_count', '<', 50)->firstOrFail();
+
+    });
+
+    Route::get('/basicinsert', function(){
+
+        $post = new Post;
+        
+        $post->title = 'New Eloquent title insert';
+        $post->body = "Wow eloquent is really cool! Look at this content!";
+
+        $post->save();
+
+    });
+
+    Route::get('/basicupdate', function(){
+
+        $post = Post::find(2);
+        
+        $post->title = 'New Eloquent title insert 2';
+        $post->body = "Wow eloquent is really cool! Look at this content! 2";
+
+        $post->save();
+
+    });
+
+
+    Route::get('/create2', function(){
+
+        Post::create(['title'=>'the create method', 'body'=>'WOW I am learning a lot with Edwin']);
+
+    });
+
+    Route::get('/update2', function(){
+        Post::where('id', 2)->where('is_admin',0)->update(['title'=>'NEW PHP Title', 'body'=>'I love my instructor']);
+    });
+
+    Route::get('/delete2', function(){
+
+        $post = Post::find(2);
+
+        $post->delete();
+
+    });
+
+    Route::get('delete3', function(){
+
+        $post = Post::destroy(3); // If you know the key then use destroy
+
+    });
+
+    Route::get('/softdelete', function(){
+        
+        Post::find(4)->delete();
+    });
+
+    Route::get('/readsoftdelete', function(){
+        
+        echo Post::withTrashed()->where('id', 4)->get();
+
+    });
+
+    Route::get('/restore', function(){
+
+        Post::withTrashed()->where('is_admin',0)->restore();
+
+    });
+
+    Route::get('/forcedelete', function(){
+        Post::onlyTrashed()->where('is_admin',0)->forceDelete();
+    });
+
+    /* ======================================================
+                        ELOQUENT RELATIONSHIPS
+       ====================================================== */
+
+
+    // One to One Relationship
+
+    Route::get('/user/post/{id}', function($id){
+
+        return User::find($id)->post;
+
+    });
+
+    // Inverse Relation
+
+    Route::get('/post/{id}/user', function($id){
+
+        return Post::find($id)->user->name; 
+
+    });
+
+    // One to Many Relationship
+
+    Route::get('/posts', function(){
+
+        $user = User::find(1);
+
+        foreach($user->posts as $post){
+            echo $post->title;
+        }
+
+    });
+
+    // Many to many relationship
+
+    Route::get('/user/{id}/role', function(){
+
+      //  $user = 
+
     });

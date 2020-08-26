@@ -30,7 +30,7 @@ class UserController extends Controller
      }
 
      public function destroy($id) {
-         Users::findOrFail($id)->delete();
+         Users::destroy($id);
         // DB::delete('delete from users where id = ?',[$id]);
          $users = Users::all();
         return view('user_test', compact('users'));

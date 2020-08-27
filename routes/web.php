@@ -1,7 +1,10 @@
 <?php
 
+use App\Country;
 use App\Post;
 use App\User;
+use App\Photo;
+use App\Tag;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -223,8 +226,84 @@ Route::get('admin/posts/example', array('as'=>'admin.home',function(){
 
     // Many to many relationship
 
-    Route::get('/user/{id}/role', function(){
+    Route::get('/user/{id}/role', function($id){
 
-      //  $user = 
+      $user = User::find($id); 
+
+      foreach($user->roles as $role){
+          echo $role->name;
+      }
+
+    }); 
+
+    // Accessing the intermediate table / pivot table 
+
+    Route::get('/user/pivot', function(){
+
+        $user = User::find(1);
+
+        foreach($user->roles as $role){
+            echo $role->pivot->created_at;
+        }
+
+    });
+
+    // 
+
+    Route::get('/user/country',function(){
+
+        $country = Country::find(4);
+
+        foreach($country->posts as $post){
+            echo $post->title .'</br>';
+        }
+
+    });
+
+
+    // Polymorphic Relations
+
+    Route::get('/user/photo', function(){
+
+        $user = User::find(2);
+
+        foreach($user->photos as $photo){
+            return $photo;
+        }
+
+    });
+
+
+    Route::get('/photo/{id}/post', function($id){
+
+        $photo = Photo::findOrFail($id);
+
+        return $photo->imageable;
+
+    });
+
+    // Polymorphic Many to Many
+
+    Route::get('/post2/tag', function(){
+
+        $post = Post::find(1);
+
+        foreach($post->tags as $tag){
+            echo $tag->name;
+        }
+
+    });
+
+
+    
+    Route::get('/tag/post', function(){ // Not working for some weird reason :/
+
+        $tag = Tag::find(2);
+
+       // echo $tag;
+
+        foreach($tag->posts as $post){
+            echo $post;
+        }
 
     });

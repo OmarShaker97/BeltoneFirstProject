@@ -214,7 +214,7 @@ Route::get('admin/posts/example', array('as'=>'admin.home',function(){
 
     // One to Many Relationship
 
-    Route::get('/posts', function(){
+   /* Route::get('/posts', function(){
 
         $user = User::find(1);
 
@@ -222,7 +222,7 @@ Route::get('admin/posts/example', array('as'=>'admin.home',function(){
             echo $post->title;
         }
 
-    });
+    }); */
 
     // Many to many relationship
 
@@ -296,7 +296,7 @@ Route::get('admin/posts/example', array('as'=>'admin.home',function(){
 
 
     
-    Route::get('/tag/post', function(){ // Not working for some weird reason :/
+   /* Route::get('/tag/post', function(){ // Not working for some weird reason :/
 
         $tag = Tag::find(2);
 
@@ -306,4 +306,22 @@ Route::get('admin/posts/example', array('as'=>'admin.home',function(){
             echo $post;
         }
 
-    });
+    }); */
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CRUD Application
+    |--------------------------------------------------------------------------
+    |
+    | Here is where you can register web routes for your application. These
+    | routes are loaded by the RouteServiceProvider within a group which
+    | contains the "web" middleware group. Now create something great!
+    |
+    */
+
+    Route::resource('posts', 'PostsController');
+
+    Route::post('posts/store', 'PostsController@store');
+
+    Route::get('posts/update/{id}', 'PostsController@update');

@@ -100,7 +100,9 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::whereId($id)->forceDelete();
+
+        return redirect('/posts');
     }
 
 

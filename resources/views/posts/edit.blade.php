@@ -18,4 +18,14 @@
 
 </form>
 
+<form method="post" action="{{route('posts.destroy', $post->id)}}">
+
+    {{csrf_field()}}
+
+    <input type="hidden" name="_method" value="DELETE">
+
+    <input type="submit" value="DELETE">
+
+</form>
+
 @endsection

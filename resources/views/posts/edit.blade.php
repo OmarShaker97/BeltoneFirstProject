@@ -6,7 +6,7 @@
 <h1>Edit Post</h1>
 
 
-<form method="post" action="/posts/update/{{$post->id}}">
+<form method="post" action="{{route('posts.update', $post->id)}}">
 
     {{csrf_field()}}
 

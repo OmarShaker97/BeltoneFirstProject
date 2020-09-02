@@ -318,10 +318,12 @@ Route::get('admin/posts/example', array('as'=>'admin.home',function(){
     | routes are loaded by the RouteServiceProvider within a group which
     | contains the "web" middleware group. Now create something great!
     |
-    */
+    */   
+    
+    Route::post('posts/store', 'PostsController@store');
+
+    Route::put('posts/update/{id}', 'PostsController@update');
 
     Route::resource('posts', 'PostsController');
 
-    Route::post('posts/store', 'PostsController@store');
-
-    Route::get('posts/update/{id}', 'PostsController@update');
+ 
